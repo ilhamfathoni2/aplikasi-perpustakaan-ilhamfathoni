@@ -1,4 +1,8 @@
 <p align="center">
+    soal nomer 1 ada di luar (1.php)
+</p>
+
+<p align="center">
     Jalankan aplikasi dengan membuka file aplikasi-perpustakaan-ilhamfathoni di text editor dan jalankan php artisan serve pada cmd atau termial
 </p>
 
