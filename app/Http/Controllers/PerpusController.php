@@ -15,7 +15,7 @@ class PerpusController extends Controller
         $title = 'Home';
         $datas = DB::table('books')
             ->leftJoin('categories', 'books.category_id', '=', 'categories.id')
-            ->select('books.name', 'books.stok', 'books.image', 'categories.nameca', 'categories.id')
+            ->select('books.id', 'books.name', 'books.image', 'categories.nameca', 'books.stok')
             ->get();
 
         return view('/home', [
@@ -31,6 +31,19 @@ class PerpusController extends Controller
 
         return view('/tambah-buku', [
             'title' => $title,
+            'category' => $category
+        ]);
+    }
+
+    public function showdetails($id)
+    {
+        $title = 'Detail Buku';
+        $books = DB::table('books')->where('id', '=', $id)->get();
+        $category = DB::table('categories')->where('id', '=', $id)->get();
+
+        return view('/detail-buku', [
+            'title' => $title,
+            'books' => $books,
             'category' => $category
         ]);
     }
@@ -78,5 +91,29 @@ class PerpusController extends Controller
 
         session()->flash('success', 'File berhasil dihapus');
         return redirect()->back();
+    }
+
+    public function showkategori()
+    {
+        $title = 'Tambah Kategori';
+        $category = Categories::all();
+
+        return view('/tambah-kategori', [
+            'title' => $title,
+            'category' => $category
+        ]);
+    }
+
+    public function storekategori(Request $request)
+    {
+        $request->validate([
+            'nameca' => 'required'
+        ]);
+
+        Categories::create([
+            'nameca' => $request->nameca
+        ]);
+        session()->flash('success', 'Tambah kategori buku berhasil');
+        return redirect('/');
     }
 }
